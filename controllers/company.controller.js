@@ -22,7 +22,7 @@ exports.getCompanies = async (req, res, next) => {
     const queries = {};
 
     if (req.query.sort) {
-      // price,qunatity   -> 'price quantity'
+      // price,quantity   -> 'price quantity'
       const sortBy = req.query.sort.split(",").join(" ");
       queries.sortBy = sortBy;
     }
@@ -81,8 +81,6 @@ exports.getCompanyById = async (req, res) => {
 
 exports.createCompany = async (req, res, next) => {
   try {
-    // save or create
-
     const result = await createCompanyService(req.body);
 
     res.status(200).json({

@@ -10,12 +10,12 @@ const {
   getJobByIdService,
   applyJobService,
   getHighestPaidJobsService,
-  getMostAppliedJobsService
+  getMostAppliedJobsService,
 } = require("../services/job.service");
 
 exports.createJob = async (req, res, next) => {
   try {
-    //check user token to find manager's company id. if it doesnt match with req.body.companyInfo then return
+    //check user token to find manager's company id. if it doesn't match with req.body.companyInfo then return
     const { email } = req.user;
     const manager = await User.findOne({ email });
     //get the company in which this manager is assigned
@@ -29,7 +29,7 @@ exports.createJob = async (req, res, next) => {
       });
     }
 
-    // deadline must be atleast 1 day from now otherwise return
+    // deadline must be at least 1 day from now otherwise return
     //deadline formate 2022-01-01
     const { deadline } = req.body;
     const today = new Date();
@@ -183,14 +183,6 @@ exports.updateJob = async (req, res) => {
       });
     }
 
-    // if job id doesnt match the id of req.params then return
-    // if(job._id != req.params.id){
-    //   return res.status(400).json({
-    //     status: "fail",
-    //     message: "You are not authorized to update this job",
-    //   });
-    // }
-
     const { id } = req.params;
     const result = await updateJobService(id, req.body);
 
@@ -209,9 +201,6 @@ exports.updateJob = async (req, res) => {
 
 exports.getAllJobs = async (req, res) => {
   try {
-    //{price:{$ gt:50}
-    //{ price: { gt: '50' } }
-
     let filters = { ...req.query };
 
     //sort , page , limit -> exclude
@@ -230,7 +219,7 @@ exports.getAllJobs = async (req, res) => {
     const queries = {};
 
     if (req.query.sort) {
-      // price,qunatity   -> 'price quantity'
+      // price,quantity   -> 'price quantity'
       const sortBy = req.query.sort.split(",").join(" ");
       queries.sortBy = sortBy;
     }
